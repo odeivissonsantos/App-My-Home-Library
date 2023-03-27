@@ -1,0 +1,7 @@
+{
+  "name": "AppMyHomeLibrary",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
