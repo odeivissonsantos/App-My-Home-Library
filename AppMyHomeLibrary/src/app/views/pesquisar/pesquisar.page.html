@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Pesquisar</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form>
+    <ion-item>
+      <ion-label>Título</ion-label>
+      <ion-input type="text" name="titulo" [(ngModel)]="tituloPesquisa"></ion-input>
+      
+      <ion-button type="submit" (click)="buscarLivroApiGoogle()">
+        <ion-icon icon="search-outline"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </form>
+
+</ion-content>

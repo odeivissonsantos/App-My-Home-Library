@@ -10,6 +10,14 @@ const routes: Routes = [
   {
     path: 'views/inicio',
     loadChildren: () => import('./views/inicio/inicio.module').then( m => m.InicioPageModule)
+  },
+  {
+    path: 'views/pesquisar',
+    loadChildren: () => import('./views/pesquisar/pesquisar.module').then( m => m.PesquisarPageModule)
+  },
+  {
+    path: 'views/login',
+    loadChildren: () => import('./views/login/login.module').then( m => m.LoginPageModule)
   }
 ];
 
