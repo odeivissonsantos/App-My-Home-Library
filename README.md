@@ -1,4 +1,4 @@
-﻿﻿### Objetivos do Projeto:
+﻿### Objetivos do Projeto:
 - Em implementação... 
 
 ### Tecnologias utilizadas no Projeto:
