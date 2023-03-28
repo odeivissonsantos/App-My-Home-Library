@@ -10,6 +10,10 @@ import { AlertController } from '@ionic/angular';
 })
 export class PesquisarPage implements OnInit {
   presentingElement = undefined;
+  isModalOpen = false;
+  isModalOpenDetalhes = false;
+  img = '';
+  descricao: any;
 
   constructor(
     private serviceLivro: LivroService,
@@ -62,9 +66,6 @@ export class PesquisarPage implements OnInit {
     await alert.present();
   }
 
-  isModalOpen = false;
-  img = '';
-
   abrirModalFoto(urlFoto : string, isOpen: boolean) {
     this.setOpen(isOpen, urlFoto);
   }
@@ -73,6 +74,19 @@ export class PesquisarPage implements OnInit {
     this.img = '';
     this.img = urlFoto;
     this.isModalOpen = isOpen;
+  }
+
+  abrirModalDetalhes(livro : Livro, isOpenDetalhes: boolean) {
+    this.setOpenDetalhes(livro, isOpenDetalhes);
+  }
+
+  setOpenDetalhes(livro : Livro, isOpenDetalhes: boolean) {
+    this.descricao = livro.descricao;
+    this.isModalOpenDetalhes = isOpenDetalhes;
+  }
+
+  setFechar(isFechar: boolean) {
+    this.isModalOpenDetalhes = isFechar;
   }
 
 }
