@@ -3,7 +3,7 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>My Home Library</ion-list-header>
+          <ion-list-header>Olá, {{usuario.nomeUsuario}}</ion-list-header>
           <ion-note></ion-note>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
@@ -12,6 +12,7 @@
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
+
         </ion-list>
         
       </ion-content>

@@ -8,11 +8,15 @@ import { RetornoApiGoogle } from '../interfaces/retorno-api-google/retorno-api-g
   providedIn: 'root'
 })
 export class LivroService {
+
+  baseUrl: String = environment.api_google_books;
+
   parametro: string = '';
   constructor(private http: HttpClient) { }
 
   buscarLivro(titulo: string): Observable<RetornoApiGoogle> {
     this.parametro = titulo.replace(/ /g, '+');
-    return this.http.get<RetornoApiGoogle>(`${environment.api_google_books}${this.parametro}`);
+    const url = `${this.baseUrl}/volumes?q=${titulo}`
+    return this.http.get<RetornoApiGoogle>(url);
   }
 }

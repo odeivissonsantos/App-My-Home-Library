@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { RetornoItems } from './interfaces/login/retorno-items.interface';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -12,4 +13,6 @@ export class AppComponent {
   ];
 
   constructor() {}
+
+  usuario: RetornoItems =  JSON.parse(localStorage.getItem('user')!);
 }

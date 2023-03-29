@@ -1,17 +1,17 @@
-<ion-content>
+<ion-content fullscreen="expand">
 
   <form>
     <ion-item>
       <ion-label>Email</ion-label>
-      <ion-input type="email" name="email"></ion-input>
+      <ion-input type="email" name="email" [(ngModel)]="loginFilter.email"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label>Senha</ion-label>
-      <ion-input type="password" name="senha"></ion-input>
+      <ion-input type="password" name="senha" [(ngModel)]="loginFilter.senha"></ion-input>
     </ion-item>
 
-    <ion-button expand="block">
+    <ion-button expand="block" (click)="logar()">
       Entrar
     </ion-button>
   </form>
