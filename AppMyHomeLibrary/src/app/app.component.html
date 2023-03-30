@@ -12,7 +12,12 @@
               <ion-label>{{ p.title }}</ion-label>
             </ion-item>
           </ion-menu-toggle>
-
+          <ion-menu-toggle auto-hide="false">
+            <ion-item routerDirection="root" lines="none" detail="false" routerLinkActive="selected"  (click)="btnSair()">
+              <ion-icon aria-hidden="true" slot="start" icon="log-out-outline"></ion-icon>
+              <ion-label>Sair</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
         </ion-list>
         
       </ion-content>

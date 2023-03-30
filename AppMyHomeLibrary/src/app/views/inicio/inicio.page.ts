@@ -10,6 +10,7 @@ export class InicioPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
   }
 
 }

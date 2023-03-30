@@ -36,7 +36,6 @@ export class LoginPage implements OnInit {
     else
     {    
       this.serviceLogin.logar(this.loginFilter).subscribe((resposta) => {
-        console.log(resposta);
         if(resposta.isOk === true) {
           localStorage.setItem('user', JSON.stringify(resposta.items[0]));
           this.router.navigate(['views/inicio']);

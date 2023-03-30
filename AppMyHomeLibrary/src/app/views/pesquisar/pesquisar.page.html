@@ -34,7 +34,7 @@
   <ion-modal [isOpen]="isModalOpen">
     <ng-template>
       <ion-header>
-        <ion-toolbar>
+        <ion-toolbar  color="primary">
           <ion-title>Capa</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="setOpen(false, '')">Fechar</ion-button>
@@ -50,14 +50,14 @@
   <ion-modal [isOpen]="isModalOpenDetalhes">
     <ng-template>
       <ion-header>
-        <ion-toolbar>
+        <ion-toolbar color="primary">
           <ion-title>Detalhes</ion-title>
           <ion-buttons slot="end">
             <ion-button (click)="setFechar(false)">Fechar</ion-button>
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-      <ion-content class="ion-padding">
+      <ion-content class="ion-padding text-descricao">
         <ion-text>{{descricao}}</ion-text>
       </ion-content>
     </ng-template>

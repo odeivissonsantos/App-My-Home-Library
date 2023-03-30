@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import { RetornoItems } from './interfaces/login/retorno-items.interface';
 @Component({
   selector: 'app-root',
@@ -8,11 +9,23 @@ import { RetornoItems } from './interfaces/login/retorno-items.interface';
 export class AppComponent {
   public appPages = [
     { title: 'Inicio', url: '/views/inicio', icon: 'home' },
-    { title: 'Pesquisar', url: '/views/pesquisar', icon: 'search' },
-    { title: 'Sair', url: '/views/login', icon: 'log-out' }
+    { title: 'Pesquisar', url: '/views/pesquisar', icon: 'search' }
   ];
 
-  constructor() {}
+  usuario: RetornoItems = {
+    nomeUsuario: '',
+    email: ''
+  };
+  constructor(
+    private router: Router
+  ) {}
 
-  usuario: RetornoItems =  JSON.parse(localStorage.getItem('user')!);
+  ngOnInit() {
+   this.usuario = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
+  }
+
+  btnSair() {
+    localStorage.removeItem('user');
+    this.router.navigate(['views/login']);
+  }
 }
