@@ -1,19 +1,43 @@
-<ion-content fullscreen="expand">
+<ion-content [fullscreen]="true">
+  <div id="container">
+    <br/>
+    <br/>
+    <div id="name-app">
+      <br/>
+      <br/>   
+      <strong class="capitalize">My Home Library</strong>      
+    </div>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <form class="app-form">
+      <ion-item class="senha">
+        <ion-input label="Outline input" label-placement="floating" fill="outline" type="email" name="email" [(ngModel)]="loginFilter.email" placeholder="Digite seu email"></ion-input>
+      </ion-item>
 
-  <form>
-    <ion-item>
-      <ion-label>Email</ion-label>
-      <ion-input type="email" name="email" [(ngModel)]="loginFilter.email"></ion-input>
-    </ion-item>
+      <ion-item class="senha">
+        <ion-input label="Outline input" label-placement="floating" fill="outline"  type="password" name="senha" [(ngModel)]="loginFilter.senha" placeholder="Digite sua senha"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-label>Senha</ion-label>
-      <ion-input type="password" name="senha" [(ngModel)]="loginFilter.senha"></ion-input>
-    </ion-item>
+      <ion-button expand="block" (click)="logar()" class="btn-entrar">
+        Entrar
+      </ion-button>
 
-    <ion-button expand="block" (click)="logar()">
-      Entrar
-    </ion-button>
-  </form>
+      <div class="registrar">
+        <h6>
+          <a (click)="navegarPara('views/registrar')">Registre-se</a>
+        </h6>
+        
+      </div>
+    </form>
+    
+    <br/>
+    <br/>
+
+    <div id="version" slot="bottom">
+      Versão {{ versionApp }}
+    </div>
+  </div>
 
 </ion-content>

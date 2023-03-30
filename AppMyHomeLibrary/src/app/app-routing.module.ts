@@ -18,7 +18,12 @@ const routes: Routes = [
   {
     path: 'views/pesquisar',
     loadChildren: () => import('./views/pesquisar/pesquisar.module').then( m => m.PesquisarPageModule)
+  },
+  {
+    path: 'views/registrar',
+    loadChildren: () => import('./views/registrar/registrar.module').then( m => m.RegistrarPageModule)
   }
+
 ];
 
 @NgModule({

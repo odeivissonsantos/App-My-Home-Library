@@ -19,7 +19,10 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
+    localStorage.setItem('user', JSON.stringify({"nomeUsuario": "", "email":""}));
   }
+
+  versionApp: any = '1.0.0.0';
 
   loginFilter: LoginFilter = {
     email: '',
@@ -68,6 +71,10 @@ export class LoginPage implements OnInit {
 
   getUser(): RetornoItems {
     return localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
+  }
+
+  navegarPara(rota: string) {
+    this.router.navigate([rota]);
   }
 
 
