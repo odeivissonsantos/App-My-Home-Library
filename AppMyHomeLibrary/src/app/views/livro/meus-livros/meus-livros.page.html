@@ -1,0 +1,35 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Meus Livros</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-refresher slot="fixed" (ionRefresh)="handleRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list *ngFor="let livro of meusLivros">
+    <div>
+      <ion-item *ngIf="meusLivros.length >= 1" lines="full">
+        <ion-label>{{livro.titulo}}</ion-label>
+      </ion-item>
+    </div>
+  </ion-list>
+  
+  <div>
+    <ion-item *ngIf="meusLivros.length < 1" lines="full"> 
+      <ion-label> Você ainda não possui livro cadastrado</ion-label>
+    </ion-item>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

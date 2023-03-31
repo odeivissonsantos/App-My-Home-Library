@@ -9,12 +9,14 @@ import { RetornoItems } from './interfaces/login/retorno-items.interface';
 export class AppComponent {
   public appPages = [
     { title: 'Inicio', url: '/views/inicio', icon: 'home' },
-    { title: 'Pesquisar', url: '/views/pesquisar', icon: 'search' }
+    { title: 'Pesquisar', url: '/views/pesquisar', icon: 'search' },
+    { title: 'Meus Livros', url: '/meus-livros', icon: 'book' }
   ];
 
   usuario: RetornoItems = {
     nomeUsuario: '',
-    email: ''
+    email: '',
+    guidUsuario: ''
   };
   constructor(
     private router: Router

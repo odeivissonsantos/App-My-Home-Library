@@ -19,7 +19,17 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    localStorage.setItem('user', JSON.stringify({"nomeUsuario": "", "email":""}));
+    localStorage.setItem('user', JSON.stringify({"nomeUsuario": "", "email": "", "guidUsuario": ""}));
+    localStorage.setItem('meus_livros', JSON.stringify({"ide_Livro": 0,
+    "guuid": "",
+    "autor": "",
+    "ano": 0,
+    "editora": "",
+    "codigo_Barras": 0,
+    "url_Capa": "",
+    "titulo": "",
+    "observacao": ""
+    }))
   }
 
   versionApp: any = '1.0.0.0';
@@ -55,6 +65,7 @@ export class LoginPage implements OnInit {
 
   btnSair() {
     localStorage.removeItem('user');
+    localStorage.removeItem('meus_livros');
     this.router.navigate(['views/login']);
   }
 

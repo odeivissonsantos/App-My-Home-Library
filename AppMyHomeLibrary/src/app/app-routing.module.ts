@@ -22,7 +22,17 @@ const routes: Routes = [
   {
     path: 'views/registrar',
     loadChildren: () => import('./views/registrar/registrar.module').then( m => m.RegistrarPageModule)
+  },
+  {
+    path: 'meus-livros',
+    loadChildren: () => import('./views/livro/meus-livros/meus-livros.module').then( m => m.MeusLivrosPageModule)
+  },
+  {
+    path: 'cadastrar',
+    loadChildren: () => import('./views/livro/cadastrar/cadastrar.module').then( m => m.CadastrarPageModule)
   }
+
+
 
 ];
 
