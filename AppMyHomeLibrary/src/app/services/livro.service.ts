@@ -6,6 +6,8 @@ import { RetornoApiGoogle } from '../interfaces/retorno-api-google/retorno-api-g
 import { RetornoListarLivros } from '../interfaces/livro/retorno-listar-livros.interface';
 import { LivroFilter } from '../interfaces/livro/livro-filter.interface';
 import { RetornoSalvar } from '../interfaces/livro/retorno-cadastrar.interface';
+import { RetornoExcluir } from '../interfaces/livro/retorno-excluir.interface';
+import { RetornoBuscarPorGuid } from '../interfaces/livro/retorno-bucar-por-guid.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -39,5 +41,15 @@ export class LivroService {
   salvar(livroFilter: LivroFilter): Observable<RetornoSalvar> {
     const url = `${this.baseUrl_api_webAPI}/Livro/Salvar`;
     return this.http.post<RetornoSalvar>(url, JSON.stringify(livroFilter), this.headerOptions);
+  }
+
+  buscarLivroPorGuid(guidLivro: string): Observable<RetornoBuscarPorGuid>{
+    const url = `${this.baseUrl_api_webAPI}/Livro/BuscarPorGuid?guidLivro=${guidLivro}`
+    return this.http.get<RetornoBuscarPorGuid>(url);
+  }
+
+  excluir(guidLivro: string): Observable<RetornoExcluir>{
+    const url = `${this.baseUrl_api_webAPI}/Livro/Excluir?guidLivro=${guidLivro}`
+    return this.http.delete<RetornoExcluir>(url);
   }
 }

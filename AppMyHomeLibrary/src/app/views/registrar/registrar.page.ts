@@ -36,7 +36,6 @@ export class RegistrarPage implements OnInit {
     else
     {    
       this.serviceUsuario.salvar(this.registrarFilter).subscribe((resposta) => {
-        console.log(resposta);
         if(resposta.isOk === true) {
           this.presentAlert(resposta.items[0].mensagem);
           this.router.navigate(['views/login']);

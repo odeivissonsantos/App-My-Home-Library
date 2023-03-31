@@ -30,6 +30,10 @@ const routes: Routes = [
   {
     path: 'cadastrar',
     loadChildren: () => import('./views/livro/cadastrar/cadastrar.module').then( m => m.CadastrarPageModule)
+  },
+  {
+    path: 'cadastrar/:guidLivro',
+    loadChildren: () => import('./views/livro/cadastrar/cadastrar.module').then( m => m.CadastrarPageModule)
   }
 
 
