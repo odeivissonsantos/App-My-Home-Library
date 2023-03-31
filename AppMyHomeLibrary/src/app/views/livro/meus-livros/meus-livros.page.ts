@@ -35,7 +35,6 @@ export class MeusLivrosPage implements OnInit {
             localStorage.setItem('meus_livros', JSON.stringify(resposta.items));
             this.meusLivros = localStorage.getItem('meus_livros') ? JSON.parse(localStorage.getItem('meus_livros')!) : null;
           }
-          console.log(this.meusLivros.length);
         }
       },
       (errorResponse) => {
@@ -49,5 +48,9 @@ export class MeusLivrosPage implements OnInit {
       this.listarMeusLivros(this.dadosUsuario.guidUsuario);
       event.target.complete();
     }, 2000);
+  }
+
+  navegarPara(rota: string) {
+    this.router.navigate([rota]);
   }
 }

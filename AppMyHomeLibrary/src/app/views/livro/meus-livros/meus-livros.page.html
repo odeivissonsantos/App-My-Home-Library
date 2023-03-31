@@ -14,20 +14,30 @@
   </ion-refresher>
 
   <ion-list *ngFor="let livro of meusLivros">
-    <div>
-      <ion-item *ngIf="meusLivros.length >= 1" lines="full">
-        <ion-label>{{livro.titulo}}</ion-label>
-      </ion-item>
+    <div *ngIf="meusLivros.length >= 1">
+      <ion-item-sliding>
+        <ion-item-options side="start" (click)="navegarPara('cadastrar')">
+          <ion-item-option color="success">Editar</ion-item-option>
+        </ion-item-options>
+
+        <ion-item>
+            <ion-label>{{livro.titulo}}</ion-label>    
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger">Excluir</ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
     </div>
   </ion-list>
   
   <div>
-    <ion-item *ngIf="meusLivros.length < 1" lines="full"> 
+    <ion-item *ngIf="meusLivros.length < 1"> 
       <ion-label> Você ainda não possui livro cadastrado</ion-label>
     </ion-item>
   </div>
 
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" (click)="navegarPara('cadastrar')">
     <ion-fab-button>
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
