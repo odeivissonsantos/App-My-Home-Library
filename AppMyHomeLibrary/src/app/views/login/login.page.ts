@@ -19,24 +19,15 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    localStorage.setItem('user', JSON.stringify({"nomeUsuario": "", "email": "", "guidUsuario": ""}));
-    localStorage.setItem('meus_livros', JSON.stringify({"ide_Livro": 0,
-    "guuid": "",
-    "autor": "",
-    "ano": 0,
-    "editora": "",
-    "codigo_Barras": 0,
-    "url_Capa": "",
-    "titulo": "",
-    "observacao": ""
-    }))
+    localStorage.setItem('user', JSON.stringify({"ideUsuario": "", "nomeUsuario": "", "sobrenomeUsuario": "", "email": "","token": "", "isOk": "", "mensagemRetorno": ""}));
   }
 
-  versionApp: any = '1.0.0.0';
+  versionApp: any = '1.0.0.1';
 
   loginFilter: LoginFilter = {
     email: '',
-    senha: ''
+    senha: '',
+    token: ''
   };
 
   logar(): void {
@@ -47,12 +38,13 @@ export class LoginPage implements OnInit {
     {    
       this.serviceLogin.logar(this.loginFilter).subscribe((resposta) => {
         if(resposta.isOk === true) {
-          localStorage.setItem('user', JSON.stringify(resposta.items[0]));
+          localStorage.setItem('user', JSON.stringify(resposta));
+          localStorage.setItem('token', JSON.stringify(resposta.token));
           this.router.navigate(['views/inicio']);
         }
         else
         {
-          this.presentAlert(resposta.messages[0].message);
+          this.presentAlert(resposta.mensagemRetorno);
         }
       },
       (errorResponse) => {
@@ -64,6 +56,7 @@ export class LoginPage implements OnInit {
   }
 
   btnSair() {
+    localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('meus_livros');
     this.router.navigate(['views/login']);

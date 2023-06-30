@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { LoginRetornoDTO } from 'src/app/interfaces/login/login-retorno.interface';
 
 @Component({
   selector: 'app-inicio',
@@ -7,10 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class InicioPage implements OnInit {
 
-  constructor() { }
+  constructor( ) { }
 
-  ngOnInit() {
-    localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
+  dadosUsuario: LoginRetornoDTO = {
+    ideUsuario: '',
+    nomeUsuario: '',
+    sobrenomeUsuario: '',
+    email: '',
+    token: '',
+    isOk: false,
+    mensagemRetorno: ''
   }
 
+  ngOnInit() {
+    this.dadosUsuario = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
+  }
 }

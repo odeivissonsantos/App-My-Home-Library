@@ -6,8 +6,8 @@ import { RetornoApiGoogle } from '../interfaces/retorno-api-google/retorno-api-g
 import { RetornoListarLivros } from '../interfaces/livro/retorno-listar-livros.interface';
 import { LivroFilter } from '../interfaces/livro/livro-filter.interface';
 import { RetornoSalvar } from '../interfaces/livro/retorno-cadastrar.interface';
-import { RetornoExcluir } from '../interfaces/livro/retorno-excluir.interface';
 import { RetornoBuscarPorGuid } from '../interfaces/livro/retorno-bucar-por-guid.interface';
+import { CriticaDTO } from '../interfaces/retorno-web-api/critica.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,8 @@ export class LivroService {
   headerOptions = {
     headers: new HttpHeaders({
         'Content-Type': 'application/json',
-        "Accept": 'application/json'
+        "Accept": 'application/json',
+        'token': JSON.parse(localStorage.getItem('token')!)
     })
   };
   
@@ -33,23 +34,28 @@ export class LivroService {
     return this.http.get<RetornoApiGoogle>(url);
   }
 
-  listarLivros(guidUsuario: string): Observable<RetornoListarLivros>{
-    const url = `${this.baseUrl_api_webAPI}/Livro/BuscarLivrosPorUsuario?guidUsuario=${guidUsuario}`
-    return this.http.get<RetornoListarLivros>(url);
+  listarPorUsuario(ide_usuario: string): Observable<RetornoListarLivros>{
+    const url = `${this.baseUrl_api_webAPI}/Livro/ListarPorUsuario?ide_usuario=${ide_usuario}`
+    return this.http.get<RetornoListarLivros>(url, this.headerOptions);
   }
 
-  salvar(livroFilter: LivroFilter): Observable<RetornoSalvar> {
-    const url = `${this.baseUrl_api_webAPI}/Livro/Salvar`;
+  novo(livroFilter: LivroFilter): Observable<RetornoSalvar> {
+    const url = `${this.baseUrl_api_webAPI}/Livro/Novo`;
     return this.http.post<RetornoSalvar>(url, JSON.stringify(livroFilter), this.headerOptions);
   }
 
-  buscarLivroPorGuid(guidLivro: string): Observable<RetornoBuscarPorGuid>{
-    const url = `${this.baseUrl_api_webAPI}/Livro/BuscarPorGuid?guidLivro=${guidLivro}`
-    return this.http.get<RetornoBuscarPorGuid>(url);
+  editar(livroFilter: LivroFilter): Observable<RetornoSalvar> {
+    const url = `${this.baseUrl_api_webAPI}/Livro/Editar`;
+    return this.http.post<RetornoSalvar>(url, JSON.stringify(livroFilter), this.headerOptions);
   }
 
-  excluir(guidLivro: string): Observable<RetornoExcluir>{
-    const url = `${this.baseUrl_api_webAPI}/Livro/Excluir?guidLivro=${guidLivro}`
-    return this.http.delete<RetornoExcluir>(url);
+  buscarPorID(ide_livro: string): Observable<RetornoBuscarPorGuid>{
+    const url = `${this.baseUrl_api_webAPI}/Livro/BuscarPorID?ide_livro=${ide_livro}`
+    return this.http.get<RetornoBuscarPorGuid>(url, this.headerOptions);
+  }
+
+  excluir(ide_livro: string): Observable<CriticaDTO>{
+    const url = `${this.baseUrl_api_webAPI}/Livro/Excluir?ide_livro=${ide_livro}`
+    return this.http.delete<CriticaDTO>(url, this.headerOptions);
   }
 }

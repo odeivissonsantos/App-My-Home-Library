@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { RetornoItemsListarLivros } from 'src/app/interfaces/livro/retorno-items-listar-livros.interface';
-import { RetornoItems } from 'src/app/interfaces/login/retorno-items.interface';
+import { LoginRetornoDTO } from 'src/app/interfaces/login/login-retorno.interface';
 import { LivroService } from 'src/app/services/livro.service';
 
 @Component({
@@ -17,53 +17,74 @@ export class MeusLivrosPage implements OnInit {
     private alertController: AlertController
   ) { }
   
-  dadosUsuario: RetornoItems = {
+  dadosUsuario: LoginRetornoDTO = {
+    ideUsuario: '',
     nomeUsuario: '',
+    sobrenomeUsuario: '',
     email: '',
-    guidUsuario: ''
+    token: '',
+    isOk: false,
+    mensagemRetorno: ''
   }
 
   meusLivros: RetornoItemsListarLivros[] = [];
 
   ngOnInit() {   
     this.dadosUsuario = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
-    this.listarMeusLivros(this.dadosUsuario.guidUsuario);
+    this.listarMeusLivros(this.dadosUsuario.ideUsuario);
+    this.listarMeusLivrosLocalStorage();
   }
 
-  listarMeusLivros(guidUsuario: string) { 
-    this.meusLivros = []; 
+  listarMeusLivrosLocalStorage() {
+    this.meusLivros = [];
+    this.meusLivros = JSON.parse(localStorage.getItem('meus_livros')!);
+  }
 
-      this.livroService.listarLivros(guidUsuario).subscribe((resposta) => {
+  listarMeusLivros(ide_usuario: string) { 
+      this.livroService.listarPorUsuario(ide_usuario).subscribe((resposta) => {
         if(resposta.isOk === true) {
-          if(resposta.items.length > 0) {
-            this.meusLivros = resposta.items;
+          if (resposta.items.length > 0)
+          {
+            localStorage.setItem('meus_livros', JSON.stringify(resposta.items[0]));
+          }
+          else 
+          {
+            localStorage.setItem('meus_livros', JSON.stringify({"ide_Livro": 0, "autor": "", "ano": 0,
+              "editora": "", "codigo_Barras": 0, "url_Capa": "", "titulo": "","observacao": ""
+            }));
+            this.Alert(resposta.messages[0].message);
           }
         }
       },
       (errorResponse) => {
-        if (errorResponse.isOk === false) {
-          this.Alert(errorResponse.error);
+        if (errorResponse.error.isOk === false) {
+          this.Alert(errorResponse.error.messages[0].message);
         }
       });
   }
 
-  excluir(guidLivro: string) {  
-    this.livroService.excluir(guidLivro).subscribe((resposta) => {
+  excluir(ide_livro: string) {  
+    this.livroService.excluir(ide_livro).subscribe((resposta) => {
       if(resposta.isOk === true) {
-        this.listarMeusLivros(this.dadosUsuario.guidUsuario);
-        this.Alert(resposta.items[0]);
+        this.listarMeusLivros(this.dadosUsuario.ideUsuario);
+        this.listarMeusLivrosLocalStorage();
+        this.excluirAlert(resposta.mensagemRetorno);
+      }
+      else
+      {
+        this.Alert(resposta.mensagemRetorno);
       }
     },
     (errorResponse) => {
-      if (errorResponse.isOk === false) {  
-        this.Alert(errorResponse.error);
+      if (errorResponse.error.isOk === false) {  
+        this.Alert(errorResponse.error.mensagemRetorno);
       }
     });
   }
 
   handleRefresh(event: any) {
     setTimeout(() => {
-      this.listarMeusLivros(this.dadosUsuario.guidUsuario);
+      this.listarMeusLivrosLocalStorage();
       event.target.complete();
     }, 2000);
   }
@@ -72,7 +93,7 @@ export class MeusLivrosPage implements OnInit {
     this.router.navigate([rota]);
   }
 
-  async presentAlert(guidLivro: string) {
+  async presentAlert(ide_livro: string) {
     const alert = await this.alertController.create({
       header: 'Alerta',
       message: 'Deseja realmente excluir este livro?',
@@ -84,7 +105,7 @@ export class MeusLivrosPage implements OnInit {
         {
           text: 'Sim',
           handler: () => {
-            this.excluir(guidLivro);
+            this.excluir(ide_livro);
           }
         }
       ]
@@ -101,6 +122,25 @@ export class MeusLivrosPage implements OnInit {
         {
           text: 'Ok',
           role: 'cancel'                  
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async excluirAlert(mensagem: string) {
+    const alert = await this.alertController.create({
+      header: 'Alerta',
+      message: mensagem,
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            this.listarMeusLivrosLocalStorage();
+            //this.handleRefresh(event);
+            window.location.reload();
+          }
         }
       ]
     });

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { LivroFilter } from 'src/app/interfaces/livro/livro-filter.interface';
-import { RetornoItems } from 'src/app/interfaces/login/retorno-items.interface';
+import { LoginRetornoDTO } from 'src/app/interfaces/login/login-retorno.interface';
 import { LivroService } from 'src/app/services/livro.service';
 
 @Component({
@@ -12,14 +12,18 @@ import { LivroService } from 'src/app/services/livro.service';
 })
 export class CadastrarPage implements OnInit {
   
-  dadosUsuario: RetornoItems = {
+  dadosUsuario: LoginRetornoDTO = {
+    ideUsuario: '',
     nomeUsuario: '',
+    sobrenomeUsuario: '',
     email: '',
-    guidUsuario: ''
+    token: '',
+    isOk: false,
+    mensagemRetorno: ''
   }
 
   livroFilter: LivroFilter = {
-    guuid: '',
+    ide_Livro: '',
     autor: '',
     ano: 0,
     editora: '',
@@ -27,7 +31,7 @@ export class CadastrarPage implements OnInit {
     urlCapa: '',
     titulo: '',
     observacao: '',
-    guuid_Usuario: ''
+    ide_Usuario: ''
   }
 
   constructor(
@@ -38,9 +42,9 @@ export class CadastrarPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    if(this.route.snapshot.paramMap.get('guidLivro') != null) this.livroFilter.guuid = this.route.snapshot.paramMap.get('guidLivro')!
-    this.dadosUsuario =  localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null; 
-    if(this.livroFilter.guuid != '') this.buscarLivroPorGuid(this.livroFilter.guuid!); 
+    if(this.route.snapshot.paramMap.get('ide_Livro') != null) this.livroFilter.ide_Livro = this.route.snapshot.paramMap.get('ide_Livro')!
+    this.dadosUsuario = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null; 
+    if(this.livroFilter.ide_Livro != '') this.buscarLivroPorGuid(this.livroFilter.ide_Livro!); 
   }
 
   salvar() {
@@ -50,8 +54,8 @@ export class CadastrarPage implements OnInit {
     }
     else
     { 
-      this.livroFilter.guuid_Usuario = this.dadosUsuario.guidUsuario;   
-      this.serviceLivro.salvar(this.livroFilter).subscribe((resposta) => {
+      this.livroFilter.ide_Usuario = this.dadosUsuario.ideUsuario;   
+      this.serviceLivro.novo(this.livroFilter).subscribe((resposta) => {
         if(resposta.isOk === true) {
           this.presentAlert(resposta.items[0].mensagem);
           this.router.navigate(['meus-livros']);         
@@ -69,20 +73,20 @@ export class CadastrarPage implements OnInit {
     }
   }
 
-  buscarLivroPorGuid(guidLivro: string) {
-    if (guidLivro === '' ) {   
-      this.presentAlert('Guid do livro é obrigatório');
+  buscarLivroPorGuid(ide_livro: string) {
+    if (ide_livro === '' ) {   
+      this.presentAlert('ID do livro é obrigatório');
     }
     else
     { 
-      this.livroFilter.guuid_Usuario = this.dadosUsuario.guidUsuario;   
-      this.serviceLivro.buscarLivroPorGuid(guidLivro).subscribe((resposta) => {
+      this.livroFilter.ide_Usuario = this.dadosUsuario.ideUsuario;   
+      this.serviceLivro.buscarPorID(ide_livro).subscribe((resposta) => {
         if(resposta.isOk === true) {
           this.livroFilter.ano = resposta.items[0].ano;
           this.livroFilter.autor = resposta.items[0].autor;  
           this.livroFilter.codigoBarras = resposta.items[0].codigo_Barras;  
           this.livroFilter.editora = resposta.items[0].editora;  
-          this.livroFilter.guuid = resposta.items[0].guuid;  
+          //this.livroFilter.ide_livro = resposta.items[0].guuid;  
           this.livroFilter.observacao = resposta.items[0].observacao;
           this.livroFilter.titulo = resposta.items[0].titulo;
           this.livroFilter.urlCapa = resposta.items[0].url_Capa;

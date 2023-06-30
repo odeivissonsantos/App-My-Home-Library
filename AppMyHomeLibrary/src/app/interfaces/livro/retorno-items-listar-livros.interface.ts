@@ -1,10 +1,9 @@
 export interface RetornoItemsListarLivros {
-    ide_Livro: number,
-    guuid: string,
+    ide_Livro: string,
     autor: string,
+    codigo_Barras: number,
     ano: number,
     editora: string,
-    codigo_Barras: number,
     url_Capa: string,
     titulo: string,
     observacao: string

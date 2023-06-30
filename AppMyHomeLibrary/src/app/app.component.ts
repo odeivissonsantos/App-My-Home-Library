@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { RetornoItems } from './interfaces/login/retorno-items.interface';
+import { LoginRetornoDTO } from './interfaces/login/login-retorno.interface';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -13,10 +13,14 @@ export class AppComponent {
     { title: 'Meus Livros', url: '/meus-livros', icon: 'book' }
   ];
 
-  usuario: RetornoItems = {
+  usuario: LoginRetornoDTO = {
+    ideUsuario: '',
     nomeUsuario: '',
+    sobrenomeUsuario: '',
     email: '',
-    guidUsuario: ''
+    token: '',
+    isOk: false,
+    mensagemRetorno: ''
   };
   constructor(
     private router: Router

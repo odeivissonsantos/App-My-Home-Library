@@ -1,5 +1,5 @@
 export interface LivroFilter {
-    guuid?: string,
+    ide_Livro: string,
     autor: string,
     ano: number,
     editora: string,
@@ -7,5 +7,5 @@ export interface LivroFilter {
     urlCapa?: string,
     titulo: string,
     observacao?: string,
-    guuid_Usuario: string
+    ide_Usuario: string
 }
