@@ -27,7 +27,7 @@ export class AppComponent {
   ) {}
 
   ngOnInit() {
-   this.usuario = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
+   this.usuario = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : '';
   }
 
   btnSair() {

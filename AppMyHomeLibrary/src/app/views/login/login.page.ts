@@ -62,14 +62,12 @@ export class LoginPage implements OnInit {
   listarMeusLivros(ide_usuario: string, token: string) { 
     this.livroService.listarPorUsuario(ide_usuario, token).subscribe((resposta) => {
       if(resposta.isOk === true) {
-        alert('cheguei aqui');
         if (resposta.items.length > 0)
         {
           localStorage.setItem('meus_livros', JSON.stringify(resposta.items[0]));
         }
         else 
         {
-          alert('cheguei aqui 2');
           localStorage.setItem('meus_livros', JSON.stringify({"ide_Livro": 0, "autor": "", "ano": 0,
             "editora": "", "codigo_Barras": 0, "url_Capa": "", "titulo": "","observacao": ""
           }));

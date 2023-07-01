@@ -3,7 +3,7 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Cadastrar Livro</ion-title>
+    <ion-title>NOVO LIVRO</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -11,37 +11,51 @@
 
   <form>
 
-    <ion-item class="autor">
-      <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="autor" placeholder="Digite o nome do autor*" [(ngModel)]="livroFilter.autor"></ion-input>
-    </ion-item>
+    <ion-card>
+  
+      <ion-card-content>
+        <ion-item class="autor">
+          <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="autor" placeholder="Nome do autor (*)" [(ngModel)]="livroFilter.autor"></ion-input>
+        </ion-item>
+    
+        <ion-item class="ano">
+          <ion-input llabel="Floating label" labelPlacement="floating"  type="number" name="ano" [(ngModel)]="livroFilter.ano" placeholder="Ano de publicação (*)"></ion-input>
+        </ion-item>
+    
+        <ion-item class="editora">
+          <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="editora" [(ngModel)]="livroFilter.editora" placeholder="Nome da Editora (*)"></ion-input>
+        </ion-item>
+    
+        <ion-item class="codigoBarras">
+          <ion-input llabel="Floating label" labelPlacement="floating"  type="number" name="codigoBarras" [(ngModel)]="livroFilter.codigoBarras" placeholder="Código de Barras"></ion-input>
+        </ion-item>
+    
+        <ion-item class="urlCapa">
+          <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="urlCapa" [(ngModel)]="livroFilter.urlCapa" placeholder="URL da capa"></ion-input>
+        </ion-item>
+    
+        <ion-item class="titulo">
+          <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="titulo" [(ngModel)]="livroFilter.titulo" placeholder="Título (*)"></ion-input>
+        </ion-item>
+    
+        <ion-item class="observacao">
+          <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="observacao" [(ngModel)]="livroFilter.observacao" placeholder="Digite alguma observação"></ion-input>
+        </ion-item>
+      </ion-card-content>
 
-    <ion-item class="ano">
-      <ion-input llabel="Floating label" labelPlacement="floating"  type="number" name="ano" [(ngModel)]="livroFilter.ano" placeholder="Digite o ano de publicação*"></ion-input>
-    </ion-item>
+      <ion-button *ngIf="livroFilter.ide_Livro === '' " color="success" expand="block" (click)="novo()" class="btn-cadastrar">
+        Cadastrar
+      </ion-button>
 
-    <ion-item class="editora">
-      <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="editora" [(ngModel)]="livroFilter.editora" placeholder="Digite so nome da editora*"></ion-input>
-    </ion-item>
+      <ion-button *ngIf="livroFilter.ide_Livro != '' " color="primary" expand="block" (click)="editar()" class="btn-editar">
+        Atualizar
+      </ion-button>
 
-    <ion-item class="codigoBarras">
-      <ion-input llabel="Floating label" labelPlacement="floating"  type="number" name="codigoBarras" [(ngModel)]="livroFilter.codigoBarras" placeholder="Digite o código de barras*"></ion-input>
-    </ion-item>
+    </ion-card>
 
-    <ion-item class="urlCapa">
-      <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="urlCapa" [(ngModel)]="livroFilter.urlCapa" placeholder="Digite a url da capa"></ion-input>
-    </ion-item>
 
-    <ion-item class="titulo">
-      <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="titulo" [(ngModel)]="livroFilter.titulo" placeholder="Digite o título*"></ion-input>
-    </ion-item>
 
-    <ion-item class="observacao">
-      <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="observacao" [(ngModel)]="livroFilter.observacao" placeholder="Digite alguma observação"></ion-input>
-    </ion-item>
 
-    <ion-button color="success" expand="block" (click)="salvar()" class="btn-cadastrar">
-      Salvar
-    </ion-button>
 
   </form>
 

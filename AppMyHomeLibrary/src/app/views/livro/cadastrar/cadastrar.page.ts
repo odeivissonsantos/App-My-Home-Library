@@ -36,7 +36,7 @@ export class CadastrarPage implements OnInit {
 
   constructor(
     private router: Router,
-    private serviceLivro: LivroService,
+    private livroService: LivroService,
     private alertController: AlertController,
     private route: ActivatedRoute
   ) { }
@@ -47,22 +47,50 @@ export class CadastrarPage implements OnInit {
     if(this.livroFilter.ide_Livro != '') this.buscarLivroPorGuid(this.livroFilter.ide_Livro!); 
   }
 
-  salvar() {
+  novo() {
     if (this.livroFilter.autor === '' || this.livroFilter.ano === 0 || this.livroFilter.editora === '' 
-                                  || this.livroFilter.codigoBarras === 0 || this.livroFilter.titulo === '' ) {   
+                                  || this.livroFilter.titulo === '' ) {   
       this.presentAlert('Campos com (*) são obrigatórios!');
     }
     else
     { 
       this.livroFilter.ide_Usuario = this.dadosUsuario.ideUsuario;   
-      this.serviceLivro.novo(this.livroFilter).subscribe((resposta) => {
+      this.livroService.novo(this.livroFilter).subscribe((resposta) => {
         if(resposta.isOk === true) {
-          this.presentAlert(resposta.items[0].mensagem);
+          this.novoAlert(resposta.mensagemRetorno);
+          this.listarMeusLivros(this.dadosUsuario.ideUsuario, this.dadosUsuario.token);
           this.router.navigate(['meus-livros']);         
         }
         else
         {
-          this.presentAlert(resposta.messages[0].message);
+          this.presentAlert(resposta.mensagemRetorno);
+        }
+      },
+      (errorResponse) => {
+        if (errorResponse.isOk === false) {   
+          this.presentAlert(errorResponse.error);
+        }
+      });
+    }
+  }
+
+  editar() {
+    if (this.livroFilter.autor === '' || this.livroFilter.ano === 0 || this.livroFilter.editora === '' 
+                                  || this.livroFilter.titulo === '' || this.livroFilter.ide_Livro === '' ) {   
+      this.presentAlert('Campos com (*) são obrigatórios!');
+    }
+    else
+    { 
+      this.livroFilter.ide_Usuario = this.dadosUsuario.ideUsuario;   
+      this.livroService.editar(this.livroFilter).subscribe((resposta) => {
+        if(resposta.isOk === true) {
+          this.novoAlert(resposta.mensagemRetorno);
+          this.listarMeusLivros(this.dadosUsuario.ideUsuario, this.dadosUsuario.token);
+          this.router.navigate(['meus-livros']);         
+        }
+        else
+        {
+          this.presentAlert(resposta.mensagemRetorno);
         }
       },
       (errorResponse) => {
@@ -78,31 +106,54 @@ export class CadastrarPage implements OnInit {
       this.presentAlert('ID do livro é obrigatório');
     }
     else
-    { 
-      this.livroFilter.ide_Usuario = this.dadosUsuario.ideUsuario;   
-      this.serviceLivro.buscarPorID(ide_livro).subscribe((resposta) => {
+    {  
+      this.livroService.buscarPorID(ide_livro).subscribe((resposta) => {
         if(resposta.isOk === true) {
-          this.livroFilter.ano = resposta.items[0].ano;
-          this.livroFilter.autor = resposta.items[0].autor;  
-          this.livroFilter.codigoBarras = resposta.items[0].codigo_Barras;  
-          this.livroFilter.editora = resposta.items[0].editora;  
-          //this.livroFilter.ide_livro = resposta.items[0].guuid;  
-          this.livroFilter.observacao = resposta.items[0].observacao;
-          this.livroFilter.titulo = resposta.items[0].titulo;
-          this.livroFilter.urlCapa = resposta.items[0].url_Capa;
+          this.livroFilter.ano = resposta.ano;
+          this.livroFilter.autor = resposta.autor;  
+          this.livroFilter.codigoBarras = resposta.codigo_Barras;  
+          this.livroFilter.editora = resposta.editora;  
+          this.livroFilter.ide_Livro = resposta.ide_Livro;  
+          this.livroFilter.observacao = resposta.observacao;
+          this.livroFilter.titulo = resposta.titulo;
+          this.livroFilter.urlCapa = resposta.url_Capa;
+          this.livroFilter.ide_Usuario = resposta.ide_Usuario;
         }
         else
         {
-          this.presentAlert(resposta.messages[0].message);
+          this.presentAlert(resposta.mensagemRetorno);
         }
       },
       (errorResponse) => {
-        if (errorResponse.isOk === false) {   
-          this.presentAlert(errorResponse.error);
+        if (errorResponse.error.isOk === false) {   
+          this.presentAlert(errorResponse.error.mensagemRetorno);
         }
       });
     }
   }
+
+  listarMeusLivros(ide_usuario: string, token: string) { 
+    this.livroService.listarPorUsuario(ide_usuario, this.dadosUsuario.token).subscribe((resposta) => {
+      if(resposta.isOk === true) {
+        if (resposta.items.length > 0)
+        {
+          localStorage.setItem('meus_livros', JSON.stringify(resposta.items[0]));
+        }
+        else 
+        {
+          localStorage.setItem('meus_livros', JSON.stringify({"ide_Livro": 0, "autor": "", "ano": 0,
+            "editora": "", "codigo_Barras": 0, "url_Capa": "", "titulo": "","observacao": ""
+          }));
+          this.presentAlert(resposta.messages[0].message);
+        }
+      }
+    },
+    (errorResponse) => {
+      if (errorResponse.error.isOk === false) {
+        this.presentAlert(errorResponse.error.messages[0].message);
+      }
+    });
+}
 
   navegarPara(rota: string) {
     this.router.navigate([rota]);
@@ -116,6 +167,23 @@ export class CadastrarPage implements OnInit {
         text: 'Ok',
         role: 'cancel'
       }],
+    });
+
+    await alert.present();
+  }
+
+  async novoAlert(mensagem: string) {
+    const alert = await this.alertController.create({
+      header: 'Alerta',
+      message: mensagem,
+      buttons: [
+        {
+          text: 'Ok',
+          handler: () => {
+            window.location.reload();
+          }
+        }
+      ]
     });
 
     await alert.present();

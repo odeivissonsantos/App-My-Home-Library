@@ -21,33 +21,33 @@ export class RegistrarPage implements OnInit {
   }
 
   registrarFilter: RegistrarFilter = {
-    cpf: '',
-    email: '',
     nome: '',
+    sobrenome: '',
+    email: '',
     senha: '',
-    sobrenome: ''
+    confirmacaoSenha: ''
   }
 
   registrar() {
-    if (this.registrarFilter.cpf === '' || this.registrarFilter.email === '' || this.registrarFilter.nome === '' 
+    if (this.registrarFilter.email === '' || this.registrarFilter.nome === '' || this.registrarFilter.confirmacaoSenha === '' 
                                   || this.registrarFilter.sobrenome === '' || this.registrarFilter.senha === '' ) {   
       this.presentAlert('Todos os campos são obrigatórios!');
     }
     else
     {    
-      this.serviceUsuario.salvar(this.registrarFilter).subscribe((resposta) => {
+      this.serviceUsuario.cadastrarNovoUsuario(this.registrarFilter).subscribe((resposta) => {
         if(resposta.isOk === true) {
-          this.presentAlert(resposta.items[0].mensagem);
+          this.presentAlert(resposta.mensagemRetorno);
           this.router.navigate(['views/login']);
         }
         else
         {
-          this.presentAlert(resposta.messages[0].message);
+          this.presentAlert(resposta.mensagemRetorno);
         }
       },
       (errorResponse) => {
-        if (errorResponse.isOk === false) {   
-          this.presentAlert(errorResponse.error);
+        if (errorResponse.error.isOk === false) {   
+          this.presentAlert(errorResponse.error.mensagemRetorno);
         }
       });
     }

@@ -2,39 +2,44 @@
   <div id="container">
     <br/>
     <br/>
-    <div id="name-app">
-      <br/>
-      <br/>    
-        <strong class="capitalize">Registrar</strong>      
-    </div>
     <br/>
     <br/>
     <form class="app-form">
 
-      <ion-item class="nome">
-        <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="nome" placeholder="Digite seu nome" [(ngModel)]="registrarFilter.nome"></ion-input>
-      </ion-item>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title style="text-align: center;">REGISTRAR</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          <ion-item class="nome">
+            <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="nome" placeholder="Nome (*)" [(ngModel)]="registrarFilter.nome"></ion-input>
+          </ion-item>
+    
+          <ion-item class="sobrenome">
+            <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="sobrenome" [(ngModel)]="registrarFilter.sobrenome" placeholder="Sobrenome (*)"></ion-input>
+          </ion-item>
+    
+          <ion-item class="email">
+            <ion-input llabel="Floating label" labelPlacement="floating"  type="email" name="email" [(ngModel)]="registrarFilter.email" placeholder="Email (*)"></ion-input>
+          </ion-item>
+    
+          <ion-item class="senha">
+            <ion-input llabel="Floating label" labelPlacement="floating"  type="password" name="senha" [(ngModel)]="registrarFilter.senha" placeholder="Senha (*)"></ion-input>
+          </ion-item>
+    
+          <ion-item class="confirmacaoSenha">
+            <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="confirmacaoSenha" [(ngModel)]="registrarFilter.confirmacaoSenha" placeholder="Confirmação de Senha (*)"></ion-input>
+          </ion-item>
+    
+          <ion-button color="success" expand="block" (click)="registrar()" class="btn-registrar">
+            Registrar
+          </ion-button>
+    
+        </ion-card-content>
+      </ion-card>
 
-      <ion-item class="sobrenome">
-        <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="sobrenome" [(ngModel)]="registrarFilter.sobrenome" placeholder="Digite seu sobrenome"></ion-input>
-      </ion-item>
-
-      <ion-item class="cpf">
-        <ion-input llabel="Floating label" labelPlacement="floating"  type="text" name="cpf" [(ngModel)]="registrarFilter.cpf" placeholder="Digite seu cpf"></ion-input>
-      </ion-item>
-
-      <ion-item class="email">
-        <ion-input llabel="Floating label" labelPlacement="floating"  type="email" name="email" [(ngModel)]="registrarFilter.email" placeholder="Digite seu email"></ion-input>
-      </ion-item>
-
-      <ion-item class="senha">
-        <ion-input llabel="Floating label" labelPlacement="floating"  type="password" name="senha" [(ngModel)]="registrarFilter.senha" placeholder="Digite sua senha"></ion-input>
-      </ion-item>
-
-      <ion-button color="success" expand="block" (click)="registrar()" class="btn-registrar">
-        Registrar
-      </ion-button>
-
+      
       <div class="voltar">
         <h6>
           <a (click)="navegarPara('views/login')">Voltar</a>

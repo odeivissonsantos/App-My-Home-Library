@@ -12,17 +12,23 @@
     <br/>
     <br/>
     <form class="app-form">
-      <ion-item class="senha">
-        <ion-input label="Outline input" label-placement="floating" fill="outline" type="email" name="email" [(ngModel)]="loginFilter.email" placeholder="Digite seu email"></ion-input>
-      </ion-item>
+      <ion-card>      
+        <ion-card-content>
+          <ion-item class="senha">
+            <ion-input label="Outline input" label-placement="floating" fill="outline" type="email" name="email" [(ngModel)]="loginFilter.email" placeholder="Digite seu email"></ion-input>
+          </ion-item>
+    
+          <ion-item class="senha">
+            <ion-input label="Outline input" label-placement="floating" fill="outline"  type="password" name="senha" [(ngModel)]="loginFilter.senha" placeholder="Digite sua senha"></ion-input>
+          </ion-item>
+    
+          <ion-button expand="block" (click)="logar()" class="btn-entrar">
+            Entrar
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
 
-      <ion-item class="senha">
-        <ion-input label="Outline input" label-placement="floating" fill="outline"  type="password" name="senha" [(ngModel)]="loginFilter.senha" placeholder="Digite sua senha"></ion-input>
-      </ion-item>
 
-      <ion-button expand="block" (click)="logar()" class="btn-entrar">
-        Entrar
-      </ion-button>
 
       <div class="registrar">
         <h6>
