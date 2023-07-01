@@ -34,9 +34,18 @@ export class LivroService {
     return this.http.get<RetornoApiGoogle>(url);
   }
 
-  listarPorUsuario(ide_usuario: string): Observable<RetornoListarLivros>{
+  listarPorUsuario(ide_usuario: string, token: string): Observable<RetornoListarLivros>{
     const url = `${this.baseUrl_api_webAPI}/Livro/ListarPorUsuario?ide_usuario=${ide_usuario}`
-    return this.http.get<RetornoListarLivros>(url, this.headerOptions);
+    
+    const headerOptions2 = {
+      headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          "Accept": 'application/json',
+          'token': token
+      })
+    }
+
+    return this.http.get<RetornoListarLivros>(url, headerOptions2);
   }
 
   novo(livroFilter: LivroFilter): Observable<RetornoSalvar> {

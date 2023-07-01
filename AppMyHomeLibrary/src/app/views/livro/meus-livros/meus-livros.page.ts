@@ -30,8 +30,7 @@ export class MeusLivrosPage implements OnInit {
   meusLivros: RetornoItemsListarLivros[] = [];
 
   ngOnInit() {   
-    this.dadosUsuario = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;
-    this.listarMeusLivros(this.dadosUsuario.ideUsuario);
+    this.dadosUsuario = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')!) : null;   
     this.listarMeusLivrosLocalStorage();
   }
 
@@ -40,8 +39,8 @@ export class MeusLivrosPage implements OnInit {
     this.meusLivros = JSON.parse(localStorage.getItem('meus_livros')!);
   }
 
-  listarMeusLivros(ide_usuario: string) { 
-      this.livroService.listarPorUsuario(ide_usuario).subscribe((resposta) => {
+  listarMeusLivros(ide_usuario: string, token: string) { 
+      this.livroService.listarPorUsuario(ide_usuario, this.dadosUsuario.token).subscribe((resposta) => {
         if(resposta.isOk === true) {
           if (resposta.items.length > 0)
           {
@@ -66,7 +65,7 @@ export class MeusLivrosPage implements OnInit {
   excluir(ide_livro: string) {  
     this.livroService.excluir(ide_livro).subscribe((resposta) => {
       if(resposta.isOk === true) {
-        this.listarMeusLivros(this.dadosUsuario.ideUsuario);
+        this.listarMeusLivros(this.dadosUsuario.ideUsuario, this.dadosUsuario.token);
         this.listarMeusLivrosLocalStorage();
         this.excluirAlert(resposta.mensagemRetorno);
       }

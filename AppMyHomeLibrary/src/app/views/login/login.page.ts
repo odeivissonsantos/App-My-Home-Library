@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
 import { LoginFilter } from 'src/app/interfaces/login/login-filter.interface';
 import { RetornoItems } from 'src/app/interfaces/login/retorno-items.interface';
+import { LivroService } from 'src/app/services/livro.service';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -16,6 +17,7 @@ export class LoginPage implements OnInit {
     private router: Router,
     private serviceLogin: LoginService,
     private alertController: AlertController,
+    private livroService: LivroService,
   ) { }
 
   ngOnInit() {
@@ -40,7 +42,9 @@ export class LoginPage implements OnInit {
         if(resposta.isOk === true) {
           localStorage.setItem('user', JSON.stringify(resposta));
           localStorage.setItem('token', JSON.stringify(resposta.token));
+          this.listarMeusLivros(resposta.ideUsuario, resposta.token);
           this.router.navigate(['views/inicio']);
+
         }
         else
         {
@@ -54,6 +58,28 @@ export class LoginPage implements OnInit {
       });
     }
   }
+
+  listarMeusLivros(ide_usuario: string, token: string) { 
+    this.livroService.listarPorUsuario(ide_usuario, token).subscribe((resposta) => {
+      if(resposta.isOk === true) {
+        alert('cheguei aqui');
+        if (resposta.items.length > 0)
+        {
+          localStorage.setItem('meus_livros', JSON.stringify(resposta.items[0]));
+        }
+        else 
+        {
+          alert('cheguei aqui 2');
+          localStorage.setItem('meus_livros', JSON.stringify({"ide_Livro": 0, "autor": "", "ano": 0,
+            "editora": "", "codigo_Barras": 0, "url_Capa": "", "titulo": "","observacao": ""
+          }));
+        }
+      }
+    },
+    (errorResponse) => {
+    });
+}
+
 
   btnSair() {
     localStorage.removeItem('token');
