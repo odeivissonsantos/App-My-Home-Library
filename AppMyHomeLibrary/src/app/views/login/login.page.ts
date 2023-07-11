@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { AlertController, MenuController } from '@ionic/angular';
 import { LoginFilter } from 'src/app/interfaces/login/login-filter.interface';
 import { RetornoItems } from 'src/app/interfaces/login/retorno-items.interface';
 import { LivroService } from 'src/app/services/livro.service';
@@ -18,6 +18,7 @@ export class LoginPage implements OnInit {
     private serviceLogin: LoginService,
     private alertController: AlertController,
     private livroService: LivroService,
+    private menuCtrl: MenuController
   ) { }
 
   ngOnInit() {
@@ -41,10 +42,9 @@ export class LoginPage implements OnInit {
       this.serviceLogin.logar(this.loginFilter).subscribe((resposta) => {
         if(resposta.isOk === true) {
           localStorage.setItem('user', JSON.stringify(resposta));
-          localStorage.setItem('token', JSON.stringify(resposta.token));
           this.listarMeusLivros(resposta.ideUsuario, resposta.token);
+          this.menuCtrl.enable(true);
           this.router.navigate(['views/inicio']);
-
         }
         else
         {
@@ -52,8 +52,8 @@ export class LoginPage implements OnInit {
         }
       },
       (errorResponse) => {
-        if (errorResponse.isOk === false) {   
-          this.presentAlert(errorResponse.error);
+        if (errorResponse.error.isOk === false) {   
+          this.presentAlert(errorResponse.error.mensagemRetorno);
         }
       });
     }
@@ -77,14 +77,6 @@ export class LoginPage implements OnInit {
     (errorResponse) => {
     });
 }
-
-
-  btnSair() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    localStorage.removeItem('meus_livros');
-    this.router.navigate(['views/login']);
-  }
 
   async presentAlert(resposta: string) {
     const alert = await this.alertController.create({

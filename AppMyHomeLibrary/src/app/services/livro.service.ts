@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { RetornoApiGoogle } from '../interfaces/retorno-api-google/retorno-api-google.interface';
 import { RetornoListarLivros } from '../interfaces/livro/retorno-listar-livros.interface';
 import { LivroFilter } from '../interfaces/livro/livro-filter.interface';
-import { RetornoSalvar } from '../interfaces/livro/retorno-cadastrar.interface';
 import { CriticaDTO } from '../interfaces/retorno-web-api/critica.interface';
 import { RetornoBuscarPorID } from '../interfaces/livro/retorno-bucar-por-id.interface';
 
@@ -14,14 +13,6 @@ import { RetornoBuscarPorID } from '../interfaces/livro/retorno-bucar-por-id.int
 })
 export class LivroService {
 
-  headerOptions = {
-    headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        "Accept": 'application/json',
-        'token': JSON.parse(localStorage.getItem('token')!)
-    })
-  };
-  
   baseUrl: String = environment.api_google_books;
   baseUrl_api_webAPI: String = environment.api_webAPI;
 
@@ -37,7 +28,7 @@ export class LivroService {
   listarPorUsuario(ide_usuario: string, token: string): Observable<RetornoListarLivros>{
     const url = `${this.baseUrl_api_webAPI}/Livro/ListarPorUsuario?ide_usuario=${ide_usuario}`
     
-    const headerOptions2 = {
+    const headerOptions = {
       headers: new HttpHeaders({
           'Content-Type': 'application/json',
           "Accept": 'application/json',
@@ -45,26 +36,62 @@ export class LivroService {
       })
     }
 
-    return this.http.get<RetornoListarLivros>(url, headerOptions2);
+    return this.http.get<RetornoListarLivros>(url, headerOptions);
   }
 
-  novo(livroFilter: LivroFilter): Observable<CriticaDTO> {
+  novo(livroFilter: LivroFilter, token: string): Observable<CriticaDTO> {
     const url = `${this.baseUrl_api_webAPI}/Livro/Novo`;
-    return this.http.post<CriticaDTO>(url, JSON.stringify(livroFilter), this.headerOptions);
+    
+    const headerOptions = {
+      headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          "Accept": 'application/json',
+          'token': token
+      })
+    }
+
+    return this.http.post<CriticaDTO>(url, JSON.stringify(livroFilter), headerOptions);
   }
 
-  editar(livroFilter: LivroFilter): Observable<CriticaDTO> {
+  editar(livroFilter: LivroFilter, token: string): Observable<CriticaDTO> {
     const url = `${this.baseUrl_api_webAPI}/Livro/Editar`;
-    return this.http.put<CriticaDTO>(url, JSON.stringify(livroFilter), this.headerOptions);
+
+    const headerOptions = {
+      headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          "Accept": 'application/json',
+          'token': token
+      })
+    }
+
+    return this.http.put<CriticaDTO>(url, JSON.stringify(livroFilter), headerOptions);
   }
 
-  buscarPorID(ide_livro: string): Observable<RetornoBuscarPorID>{
-    const url = `${this.baseUrl_api_webAPI}/Livro/BuscarPorID?ide_livro=${ide_livro}`
-    return this.http.get<RetornoBuscarPorID>(url, this.headerOptions);
+  buscarPorID(ide_livro: string, token: string): Observable<RetornoBuscarPorID>{
+    const url = `${this.baseUrl_api_webAPI}/Livro/BuscarPorID?ide_livro=${ide_livro}`;
+    
+    const headerOptions = {
+      headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          "Accept": 'application/json',
+          'token': token
+      })
+    }
+
+    return this.http.get<RetornoBuscarPorID>(url, headerOptions);
   }
 
-  excluir(ide_livro: string): Observable<CriticaDTO>{
-    const url = `${this.baseUrl_api_webAPI}/Livro/Excluir?ide_livro=${ide_livro}`
-    return this.http.delete<CriticaDTO>(url, this.headerOptions);
+  excluir(ide_livro: string, token: string): Observable<CriticaDTO>{
+    const url = `${this.baseUrl_api_webAPI}/Livro/Excluir?ide_livro=${ide_livro}`;   
+    
+    const headerOptions = {
+      headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+          "Accept": 'application/json',
+          'token': token
+      })
+    }
+
+    return this.http.delete<CriticaDTO>(url, headerOptions);
   }
 }

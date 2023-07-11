@@ -55,7 +55,7 @@ export class CadastrarPage implements OnInit {
     else
     { 
       this.livroFilter.ide_Usuario = this.dadosUsuario.ideUsuario;   
-      this.livroService.novo(this.livroFilter).subscribe((resposta) => {
+      this.livroService.novo(this.livroFilter, this.dadosUsuario.token).subscribe((resposta) => {
         if(resposta.isOk === true) {
           this.novoAlert(resposta.mensagemRetorno);
           this.listarMeusLivros(this.dadosUsuario.ideUsuario, this.dadosUsuario.token);
@@ -82,7 +82,7 @@ export class CadastrarPage implements OnInit {
     else
     { 
       this.livroFilter.ide_Usuario = this.dadosUsuario.ideUsuario;   
-      this.livroService.editar(this.livroFilter).subscribe((resposta) => {
+      this.livroService.editar(this.livroFilter, this.dadosUsuario.token).subscribe((resposta) => {
         if(resposta.isOk === true) {
           this.novoAlert(resposta.mensagemRetorno);
           this.listarMeusLivros(this.dadosUsuario.ideUsuario, this.dadosUsuario.token);
@@ -107,7 +107,7 @@ export class CadastrarPage implements OnInit {
     }
     else
     {  
-      this.livroService.buscarPorID(ide_livro).subscribe((resposta) => {
+      this.livroService.buscarPorID(ide_livro, this.dadosUsuario.token).subscribe((resposta) => {
         if(resposta.isOk === true) {
           this.livroFilter.ano = resposta.ano;
           this.livroFilter.autor = resposta.autor;  

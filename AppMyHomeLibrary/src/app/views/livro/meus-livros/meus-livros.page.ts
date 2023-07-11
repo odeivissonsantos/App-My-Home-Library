@@ -62,8 +62,9 @@ export class MeusLivrosPage implements OnInit {
       });
   }
 
-  excluir(ide_livro: string) {  
-    this.livroService.excluir(ide_livro).subscribe((resposta) => {
+  excluir(ide_livro: string) {
+    this.livroService.excluir(ide_livro, this.dadosUsuario.token).subscribe((resposta) => {
+
       if(resposta.isOk === true) {
         this.listarMeusLivros(this.dadosUsuario.ideUsuario, this.dadosUsuario.token);
         this.listarMeusLivrosLocalStorage();
@@ -75,6 +76,7 @@ export class MeusLivrosPage implements OnInit {
       }
     },
     (errorResponse) => {
+      console.log(errorResponse);
       if (errorResponse.error.isOk === false) {  
         this.Alert(errorResponse.error.mensagemRetorno);
       }
